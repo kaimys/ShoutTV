@@ -1,2 +1,18 @@
-<html>
-<h1>Hello</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  var socket;
+  window.addEventListener('load', function() {
+    socket = io();
+    socket.on('newStream', function(msg){
+      console.log(msg);
+    });
+    console.log('app started');
+  });
+  </script>
+</head>
+<body>
+</body>
+</html>
