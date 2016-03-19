@@ -1,0 +1,15 @@
+OVERVIEW_HEIGHT_FACTOR = 0.7;
+
+#overview {
+  position: absolute;
+  width: 100%;
+  height: OVERVIEW_HEIGHT_FACTOR * DEVICE_HEIGHT;
+  bottom: TICKET_HEIGHT_FACTOR * DEVICE_HEIGHT;
+  background-color: BACKGROUND_COLOR;
+
+  > .row {
+    position: relative;
+    width: 100%;
+    height: 0.5 * OVERVIEW_HEIGHT_FACTOR * DEVICE_HEIGHT;
+  }
+}

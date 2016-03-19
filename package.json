@@ -4,16 +4,17 @@
   "main": "server/init.js",
   "scripts": {
     "start": "node server/init.js & npm run watch & wait",
-    "build": "browserify public/js/src/app.js -o public/js/app.js && stylus public/css/style.styl -o public/css/style.css || exit 1",
+    "build": "mkdir -p public/css public/js && browserify assets/js/app.js -v -t babelify -o public/js/app.js && stylus assets/css/style.styl -o public/css/style.css || exit 1",
     "watch": "npm run watch:js & npm run watch:css & wait",
-    "watch:js": "watchify public/js/src/app.js -o public/js/app.js -v",
-    "watch:css": "stylus public/css/src/style.styl -o public/css/style.css"
+    "watch:js": "mkdir -p public/js && watchify assets/js/app.js -v -t babelify -o public/js/app.js",
+    "watch:css": "mkdir -p public/css && stylus assets/css/style.styl -o public/css/style.css"
   },
   "devDependencies": {
     "typings": "^0.7.9",
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "babelify": "^7.2.0",
     "express": "^4.13.4",
     "socket.io": "^1.4.5",
     "stylus": "^0.54.2"
