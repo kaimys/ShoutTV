@@ -1,0 +1,14 @@
+{
+  "name": "ShoutTV",
+  "description": "Promote Periscope Streams over HbbTV for User Comments",
+  "main": "server/init.js",
+  "scripts": {
+    "start": "node server/init.js"
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+    "express": "^4.13.4",
+    "socket.io": "^1.4.5"
+  }
+}
