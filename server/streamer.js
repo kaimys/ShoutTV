@@ -10,35 +10,40 @@ var client = new Twitter({
 });
 
 var pollInterval;
+var since_id;
+
+function doQuery(hashTag, callback) {
+  var query = {q: '#periscope ' + hashTag};
+  if (since_id) {
+    query.since_id = since_id;
+  }
+  client.get('search/tweets', query, function(error, tweets, response){
+    if (!error) {
+      console.log('maxid=' + tweets.search_metadata.max_id);
+      since_id = tweets.search_metadata.max_id;
+      tweets.statuses.forEach(function(status) {
+        if (status.source == '<a href="https://periscope.tv" rel="nofollow">Periscope</a>') {
+          var stream = {
+            id: status.id,
+            created_at: status.created_at,
+            avatar: status.user.profile_image_url,
+            text: status.text,
+            user_name: status.user.name,
+            location: status.user.location,
+          };
+          callback(stream);
+        }
+      });
+    }
+  });
+}
 
 module.exports = {
 
   start: function(hashTag, callback) {
-    var since_id;
+    doQuery(hashTag, callback);
     pollInterval = setInterval(function() {
-      var query = {q: '#periscope ' + hashTag};
-      if (since_id) {
-        query.since_id = since_id;
-      }
-      client.get('search/tweets', query, function(error, tweets, response){
-        if (!error) {
-          console.log('maxid=' + tweets.search_metadata.max_id);
-          since_id = tweets.search_metadata.max_id;
-          tweets.statuses.forEach(function(status) {
-            if (status.source == '<a href="https://periscope.tv" rel="nofollow">Periscope</a>') {
-              var stream = {
-                id: status.id,
-                created_at: status.created_at,
-                avatar: status.user.profile_image_url,
-                text: status.text,
-                user_name: status.user.name,
-                location: status.user.location,
-              };
-              console.log(stream);
-            }
-          });
-        }
-      });
+      doQuery(hashTag, callback);
     }, 30000);
   },
 
