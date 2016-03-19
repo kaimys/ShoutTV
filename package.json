@@ -7,7 +7,7 @@
     "build": "browserify public/js/src/app.js -o public/js/app.js && stylus public/css/style.styl -o public/css/style.css || exit 1",
     "watch": "npm run watch:js & npm run watch:css & wait",
     "watch:js": "watchify public/js/src/app.js -o public/js/app.js -v",
-    "watch:css": "stylus public/src/css/style.styl -o public/css/style.css"
+    "watch:css": "stylus public/css/src/style.styl -o public/css/style.css"
   },
   "devDependencies": {
     "typings": "^0.7.9",
