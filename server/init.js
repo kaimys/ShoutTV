@@ -19,23 +19,23 @@ var io = socketIO(server);
 
 io.on('connection', function(socket) {
   console.log('a user connected');
-  var i = 0;
   var interval = setInterval(function() {
+    var stream = testStreams[Math.round((testStreams.length - 1) * Math.random())];
+    stream.watcher = Math.round(100 * Math.random());
     var data = {
-      id: testStreams[i].id,
-      created_at: testStreams[i].created_at,
-      user_name: testStreams[i].user_name,
-      avatar: testStreams[i].avatar,
-      location: testStreams[i].location,
-      text: testStreams[i].text,
+      id: stream.id,
+      created_at: stream.created_at,
+      user_name: stream.user_name,
+      avatar: stream.avatar,
+      location: stream.location,
+      text: stream.text,
       stream: 'http://server.com',
       screenShot: 'http://url.to.screenshot',
-      watcher: 33
+      watcher: stream.watcher
     };
     socket.emit('newStream', data);
     console.log('message emmited');
-    i = (i+1) % testStreams.length;
-  }, 5000);
+  }, 1000);
   socket.on('disconnect', function() {
     clearInterval(interval);
     console.log('user disconnected');
