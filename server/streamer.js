@@ -34,8 +34,13 @@ function doQuery(hashTag, callback) {
             user_name: status.user.name,
             location: status.user.location,
           };
-          callback(stream);
-          break; // only take the first stream
+          var match = status.text.match(/https:\/\/t\.co\/[A-Za-z0-9]*$/);
+          if (match) {
+            stream.stream = match[0];
+            stream.text = status.text.substr(0, status.text.length - match[0].length);
+            callback(stream);
+            break; // only take the first stream
+          }
         }
       }
     }
