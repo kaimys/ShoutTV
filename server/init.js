@@ -5,6 +5,7 @@ var fs = require('fs');
 var express = require('express');
 var socketIO = require('socket.io');
 var streamer = require('./streamer');
+var periscope = require('./periscope');
 
 // express setup
 var app = express();
@@ -30,17 +31,23 @@ server.listen(8888, function(){
 
 // twitter feed setup
 streamer.start('', function(stream) {
-  var data = {
-    id: stream.id,
-    created_at: stream.created_at,
-    user_name: stream.user_name,
-    avatar: stream.avatar,
-    location: stream.location,
-    text: stream.text,
-    stream: 'http://server.com',
-    screenShot: 'http://url.to.screenshot',
-    watcher: stream.watcher
-  };
-  io.emit('newStream', data);
-  console.log('message emmited');
+  periscope(stream.stream, function(err, pscope) {
+    if (!err) {
+      var data = {
+        id: stream.id,
+        created_at: stream.created_at,
+        user_name: stream.user_name,
+        avatar: stream.avatar,
+        location: stream.location,
+        text: stream.text,
+        stream: stream.stream,
+        screenShot: pscope.broadcast.image_url,
+        watcher: pscope.n_watching || pscope.n_watched || 0
+      };
+      io.emit('newStream', data);
+      console.log(data);
+    } else {
+      console.log(err);
+    }
+  });
 });
