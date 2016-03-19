@@ -4,6 +4,7 @@
   "main": "server/init.js",
   "scripts": {
     "start": "node server/init.js & npm run watch & wait",
+    "streams": "node server/streams.js",
     "build": "mkdir -p public/css public/js && browserify assets/js/app.js -v -t babelify -o public/js/app.js && stylus assets/css/style.styl -o public/css/style.css || exit 1",
     "watch": "npm run watch:js & npm run watch:css & wait",
     "watch:js": "mkdir -p public/js && watchify assets/js/app.js -v -t babelify -o public/js/app.js",
@@ -17,6 +18,8 @@
     "babelify": "^7.2.0",
     "express": "^4.13.4",
     "socket.io": "^1.4.5",
+    "twitter": "^1.2.5",
+    "socket.io-client": "^1.4.5",
     "stylus": "^0.54.2"
   }
 }
