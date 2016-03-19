@@ -1,19 +1,27 @@
-TICKET_HEIGHT_FACTOR = 0.2;
+TICKER_HEIGHT_FACTOR = 0.2;
 
 #ticker {
   bottom: 0;
   position: absolute;
-  height: TICKET_HEIGHT_FACTOR * DEVICE_HEIGHT;
+  height: TICKER_HEIGHT_FACTOR * DEVICE_HEIGHT;
   background-color: BACKGROUND_COLOR;
   width: 100%;
 
   > .elements {
-    > .ticker {
+
+    > .stream {
+      font-size: 20px;
+      display: block;
+      width: 200px;
+      float: left;
+
       > .user > .image {
         height: 20px;
         width: 20px;
         background-size: cover;
       }
     }
+
   }
+
 }
