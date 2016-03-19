@@ -1,5 +1,6 @@
 {
   "name": "shouttv",
+  "version": "0.0.1",
   "description": "Promote Periscope Streams over HbbTV for User Comments",
   "main": "server/init.js",
   "scripts": {
