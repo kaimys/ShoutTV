@@ -5,7 +5,7 @@
   "main": "server/init.js",
   "scripts": {
     "start": "node server/init.js",
-    "streams": "node server/streams.js",
+    "streams": "node server/test-streamer.js",
     "epg": "node server/epg.js",
     "build": "mkdir -p public/css public/js && browserify assets/js/app.js -v -t babelify -o public/js/app.js && stylus assets/css/style.styl -o public/css/style.css || exit 1",
     "watch": "npm run watch:js & npm run watch:css & wait",
