@@ -6,10 +6,29 @@ OVERVIEW_HEIGHT_FACTOR = 0.7;
   height: OVERVIEW_HEIGHT_FACTOR * DEVICE_HEIGHT;
   bottom: TICKER_HEIGHT_FACTOR * DEVICE_HEIGHT;
   background-color: BACKGROUND_COLOR;
+}
 
-  > .row {
-    position: relative;
-    width: 100%;
-    height: 0.5 * OVERVIEW_HEIGHT_FACTOR * DEVICE_HEIGHT;
+ROW_HEIGHT = 0.5 * OVERVIEW_HEIGHT_FACTOR * DEVICE_HEIGHT;
+
+#overview-newest, #overview-hottest {
+  position: absolute;
+  width: 100%;
+  height: ROW_HEIGHT;
+
+  > h2 {
+    margin: 0;
+    height: 28px;
   }
+
+  > .elements {
+    
+  }
+}
+
+#overview-newest {
+  top: 0;
+}
+
+#overview-hottest {
+  top: ROW_HEIGHT;
 }
