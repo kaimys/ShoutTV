@@ -3,7 +3,7 @@
 var path = require('path');
 var fs = require('fs');
 var express = require('express');
-var socketIO       = require('socket.io')
+var socketIO = require('socket.io');
 
 var app = express();
 app.use(function(req, res, next) {

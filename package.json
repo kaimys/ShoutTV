@@ -3,12 +3,14 @@
   "description": "Promote Periscope Streams over HbbTV for User Comments",
   "main": "server/init.js",
   "scripts": {
-    "start": "node server/init.js"
+    "start": "node server/init.js",
+    "streams": "node server/streams.js"
   },
   "devDependencies": {
   },
   "dependencies": {
     "express": "^4.13.4",
-    "socket.io": "^1.4.5"
+    "socket.io": "^1.4.5",
+    "twitter": "^1.2.5"
   }
 }

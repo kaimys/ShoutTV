@@ -35,3 +35,6 @@ jspm_packages
 
 # Bower
 public/vendor
+
+
+setenv.sh
