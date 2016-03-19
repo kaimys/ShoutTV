@@ -4,11 +4,12 @@ var backend = require('./backend');
 
 var $ticker = $('#ticker');
 var $elementsBox = $ticker.find('.elements');
+var $elementsBox = $ticker.find('.elements');
 
 function render(ticker) {
-  return `<div class="ticker">
+  return `<a class="ticker">
     <div class="username">TEST</div>
-  </div>`;
+  </a>`;
 }
 
 backend.on('newStream', function(ticker){
