@@ -18,7 +18,14 @@ var io = socketIO(server);
 io.on('connection', function(socket) {
   console.log('a user connected');
   var interval = setInterval(function() {
-    socket.emit('newStream', {url: 'http://server.com'});
+    var data = {
+      stream: 'http://server.com',
+      avatar: 'https://pbs.twimg.com/profile_images/516226876/saschalobo_icon_normal.png',
+      text: 'Das gab\'s noch nie bei #GNTM: Fata gibt Heidi einen Nackt-Korb (und kommt trotzdem weiter)! Respekt, Fata! #periscope',
+      screenShot: 'http://url.to.screenshot',
+      watcher: 33
+    };
+    socket.emit('newStream', data);
     console.log('message emmited');
   }, 5000);
   socket.on('disconnect', function() {
