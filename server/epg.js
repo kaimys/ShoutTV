@@ -33,7 +33,8 @@ request(url, function (error, response, body) {
       results.forEach(function(broadcast) {
         var prog = {
           eventId: broadcast.internalIds.eventId,
-          format:  broadcast.internalIds.brandId
+          format:  broadcast.internalIds.brandId,
+          duration: broadcast.publishedDuration
         };
         if (!prog.format) {
           prog.format = broadcast.internalIds.seriesId;
