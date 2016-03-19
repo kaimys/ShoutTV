@@ -4,13 +4,14 @@
   "description": "Promote Periscope Streams over HbbTV for User Comments",
   "main": "server/init.js",
   "scripts": {
+    "postinstall": "mkdir -p public/css public/js",
     "start": "node server/init.js",
     "streams": "node server/test-streamer.js",
     "epg": "node server/epg.js",
-    "build": "mkdir -p public/css public/js && browserify assets/js/app.js -v -t babelify -o public/js/app.js && stylus assets/css/style.styl -o public/css/style.css || exit 1",
+    "build": "browserify assets/js/app.js -v -t babelify -o public/js/app.js && stylus assets/css/style.styl -o public/css/style.css || exit 1",
     "watch": "npm run watch:js & npm run watch:css & wait",
-    "watch:js": "mkdir -p public/js && watchify assets/js/app.js -v -t babelify -o public/js/app.js",
-    "watch:css": "mkdir -p public/css && stylus assets/css/style.styl -w -o public/css/style.css"
+    "watch:js": "watchify assets/js/app.js -v -t babelify -o public/js/app.js",
+    "watch:css": "stylus assets/css/style.styl -w -o public/css/style.css"
   },
   "devDependencies": {
     "typings": "^0.7.9",
