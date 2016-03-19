@@ -1,14 +1,21 @@
 {
-  "name": "ShoutTV",
+  "name": "shouttv",
   "description": "Promote Periscope Streams over HbbTV for User Comments",
   "main": "server/init.js",
   "scripts": {
-    "start": "node server/init.js"
+    "start": "node server/init.js & npm run watch & wait",
+    "build": "browserify public/js/src/app.js -o public/js/app.js && stylus public/css/style.styl -o public/css/style.css || exit 1",
+    "watch": "npm run watch:js & npm run watch:css & wait",
+    "watch:js": "watchify public/js/src/app.js -o public/js/app.js -v",
+    "watch:css": "stylus public/src/css/style.styl -o public/css/style.css"
   },
   "devDependencies": {
+    "typings": "^0.7.9",
+    "watchify": "^3.7.0"
   },
   "dependencies": {
     "express": "^4.13.4",
-    "socket.io": "^1.4.5"
+    "socket.io": "^1.4.5",
+    "stylus": "^0.54.2"
   }
 }

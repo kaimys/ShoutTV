@@ -35,3 +35,11 @@ jspm_packages
 
 # Bower
 public/vendor
+
+# Typescript Typings
+typings
+
+# Build files
+public/css/**/*.css
+public/js/**/*.js
+!public/js/src
