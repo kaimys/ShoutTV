@@ -16,7 +16,6 @@ backend.on('newStream', function(stream) {
   if (stream.id in streamsMap) {
     _.without(streams, streamsMap[stream.id]);
     updated = true;
-    return;
   }
 
   // make sure there are never more then MAX_STREAMS in streams
