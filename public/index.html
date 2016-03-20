@@ -9,6 +9,9 @@
     socket.on('newStream', function(msg){
       console.log(msg);
     });
+    socket.on('newBroadcast', function(msg){
+      console.log(msg);
+    });
     console.log('app started');
   });
   </script>
