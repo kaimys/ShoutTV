@@ -11,7 +11,7 @@ var $elements = $ticker.find('> .elements');
 function render(stream) {
   return `<a id="ticker-${stream.id}" class="stream">
     <div class="user"><span class="image" style="background-image: url(${stream.avatar});"></span> ${stream.user_name}</div>
-    <div class="text">${stream.text}</div>
+    <div class="text">${stream.text || ''}</div>
     <div class="watchers">${stream.watcher}</div>
   </a>`;
 }
