@@ -4,10 +4,10 @@
 
 var KeyboardEvent = window.KeyEvent || window.KeyboardEvent;
 
-window.KeyboardEvent.VK_RED = KeyboardEvent.VK_RED || 114; // R
-window.KeyboardEvent.VK_GREEN = KeyboardEvent.VK_GREEN || 103; // G
-window.KeyboardEvent.VK_YELLOW = KeyboardEvent.VK_YELLOW || 121; // Y
-window.KeyboardEvent.VK_BLUE = KeyboardEvent.VK_BLUE || 98; // B
+window.KeyboardEvent.VK_RED = KeyboardEvent.VK_RED || 82; // R
+window.KeyboardEvent.VK_GREEN = KeyboardEvent.VK_GREEN || 71; // G
+window.KeyboardEvent.VK_YELLOW = KeyboardEvent.VK_YELLOW || 89; // Y
+window.KeyboardEvent.VK_BLUE = KeyboardEvent.VK_BLUE || 66; // B
 
 window.KeyboardEvent.VK_LEFT = KeyboardEvent.VK_LEFT || 37;
 window.KeyboardEvent.VK_UP = KeyboardEvent.VK_UP || 38;

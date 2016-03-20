@@ -35,7 +35,7 @@ io.on('connection', function(socket) {
     };
     socket.emit('newStream', data);
     console.log('message emmited');
-  }, 1000);
+  }, 4000);
   socket.on('disconnect', function() {
     clearInterval(interval);
     console.log('user disconnected');

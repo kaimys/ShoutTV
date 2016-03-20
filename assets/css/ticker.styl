@@ -1,12 +1,11 @@
-TICKER_HEIGHT_FACTOR = 0.2;
+TICKER_HEIGHT_FACTOR = 0.1;
 
 #ticker {
   bottom: 0;
   position: absolute;
   height: TICKER_HEIGHT_FACTOR * DEVICE_HEIGHT;
-  background-color: BACKGROUND_COLOR;
   width: 100%;
-  
+
   > .logo {
         
     background-image: url("../img/logo_farbe.png");
@@ -24,16 +23,28 @@ TICKER_HEIGHT_FACTOR = 0.2;
     > .stream {
       font-size: 15px;
       display: block;
-      width: 200px;
+      width: 300px;
+      height: 100%;
       float: left;
+      padding: 10px;
+      background-color: BACKGROUND_COLOR;
+
+      -webkit-transition: all 0.5s ease-out;
+      -moz-transition: all 0.5s ease-out;
+      -o-transition: all 0.5s ease-out;
+      -ms-transition: all 0.5s ease-out;
+      transition: all 0.5s ease-out;
 
       > .user > .image {
-        height: 40px;
-        width: 40px;
+        height: 1em;
+        width: 1em;
         background-size: cover;
         float: left;
         margin: 5px;
-  
+      }
+
+      > .text {
+        
       }
     }
 

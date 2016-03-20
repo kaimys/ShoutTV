@@ -1,19 +1,30 @@
-OVERVIEW_HEIGHT_FACTOR = 0.7;
+OVERVIEW_HEIGHT_FACTOR = 1 - TICKER_HEIGHT_FACTOR;
 
 #overview {
   position: absolute;
-  width: 100%;
   height: OVERVIEW_HEIGHT_FACTOR * DEVICE_HEIGHT;
   bottom: TICKER_HEIGHT_FACTOR * DEVICE_HEIGHT;
-  background-color: BACKGROUND_COLOR;
+
+  .stream {
+    display: block;
+
+    &:focus {
+      background-color: #f00;
+    }
+  }
 }
 
-ROW_HEIGHT = 0.5 * OVERVIEW_HEIGHT_FACTOR * DEVICE_HEIGHT;
+COLUMN_WIDTH = 300px;
 
 #overview-newest, #overview-hottest {
   position: absolute;
-  width: 100%;
-  height: ROW_HEIGHT;
+  width: COLUMN_WIDTH;
+  height: 100%;
+  background-color: BACKGROUND_COLOR;
+
+  &.active {
+    background-color: ACTIVE_BACKGROUND_COLOR;
+  }
 
   > h2 {
     margin: 0;
@@ -26,9 +37,9 @@ ROW_HEIGHT = 0.5 * OVERVIEW_HEIGHT_FACTOR * DEVICE_HEIGHT;
 }
 
 #overview-newest {
-  top: 0;
+  left: COLUMN_WIDTH;
 }
 
 #overview-hottest {
-  top: ROW_HEIGHT;
+  left: 0;
 }
