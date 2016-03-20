@@ -1,56 +1,109 @@
 'use strict';
 
 var request = require('request');
+var _ = require('underscore');
 
-var filter = {
-  'criteria':[
-    {
-      'term': 'publishedStartDateTime',
-      'operator': 'atLeast',
-      'value': '2016-03-19T18:00:00Z'
-    }, {
-      'term': 'publishedStartDateTime',
-      'operator': 'atMost',
-      'value': '2016-03-19T22:00:00Z'
-    }, {
-      'term': 'sourceId',
-      'operator': 'in',
-      'values': ['756211']  // ProSieben
-    }
-  ],
-  'operator': 'and'
+var hashMap = {
+  '140014630466': '#TBBT',          // The Bing Bang Theory
+  '140043126612': '#2brokegirls',   // 2 Broke Girls
+  '140014680823': '#TAAHM',         // Two and a half men
+  '140021780633': '#CougarTown',
+  '140024131129': '#MikeAndMolly',
+  '140023920253': '#TheMiddle',
+  '559632993':    '#TheWathch',
+  '140191056739': '#TEAMWORK',
+  '140039622210': '#NEWSTIME',
+  '557080399':    '#YearOne',
+  '559632992':    '#BatVsSuper'
 };
 
-var url = 'http://hack.api.uat.ebmsctogroup.com/stores-active/contentInstance/event/filter'
-url += '?numberOfResults=100';
-url += '&filter=' + JSON.stringify(filter);
-url +=  '&api_key=240e4458fc4c6ac85c290481646b21ef';
+var baseUrl = 'http://hack.api.uat.ebmsctogroup.com/stores-active/contentInstance/event/filter?api_key=240e4458fc4c6ac85c290481646b21ef';
 
-request(url, function (error, response, body) {
-  if (!error) {
-    if (response.statusCode == 200) {
-      var results = JSON.parse(body);
-      results.forEach(function(broadcast) {
-        var prog = {
-          eventId: broadcast.internalIds.eventId,
-          format:  broadcast.internalIds.brandId,
-          duration: broadcast.publishedDuration
-        };
-        if (!prog.format) {
-          prog.format = broadcast.internalIds.seriesId;
-        }
-        broadcast.searchableTitles.forEach(function(title) {
-          if (title.value.DE) {
-            prog.title = title.value.DE;
+function getCurrentBroacast(callback) {
+  var now = new Date();
+  var then = new Date(now.getTime() + 3600000*15);
+  var now = new Date(now.getTime() - 3600000*2);
+  var filter = {
+    'criteria':[
+      {
+        'term': 'publishedStartDateTime',
+        'operator': 'atLeast',
+        'value': now.toISOString()
+      }, {
+        'term': 'publishedStartDateTime',
+        'operator': 'atMost',
+        'value': then.toISOString()
+      }, {
+        'term': 'sourceId',
+        'operator': 'in',
+        'values': ['756211']  // ProSieben
+      }
+    ],
+    'operator': 'and'
+  };
+
+  var url = baseUrl + '&numberOfResults=100&filter=' + JSON.stringify(filter);
+
+  request(url, function (error, response, body) {
+    if (!error) {
+      if (response.statusCode == 200) {
+        var results = JSON.parse(body);
+        _.chain(results)
+        .sortBy(function(b) { return b.publishedStartDateTime; })
+        .each(function(broadcast) {
+          var startTime = new Date(broadcast.publishedStartDateTime);
+          var prog = {
+            paId: broadcast.internalIds.programmeAbstractionId,
+            eventId: broadcast.internalIds.eventId,
+            format:  broadcast.internalIds.brandId || broadcast.internalIds.seriesId || broadcast.internalIds.eventId,
+            startTime: startTime,
+            endTime: new Date(startTime.getTime() + broadcast.publishedDuration * 1000),
+            duration: broadcast.publishedDuration,
+            hash: []
+          };
+          broadcast.searchableTitles.forEach(function(title) {
+            if (title.value.DE) {
+              prog.title = title.value.DE;
+            }
+          });
+          if (hashMap[prog.format]) {
+            prog.hash.push(hashMap[prog.format]);
           }
+          console.log(prog);
+          callback(undefined, prog);
         });
-        console.log(prog);
-      });
+      } else {
+        console.log('server returned status %s for url %s', response.statusCode, url);
+        console.log(body);
+        callback(body);
+      }
     } else {
-      console.log('server returned status %s for url %s', response.statusCode, url);
-      console.log(body);
+      console.log(error);
+      callback(error);
     }
-  } else {
-    console.log(error);
-  }
-});
+  });
+}
+
+function getBroadcast(programmeAbstractionId) {
+  var filter = {
+    'term': 'internalIds.programmeAbstractionId',
+    'value': programmeAbstractionId
+  };
+  var url = baseUrl + '&numberOfResults=10&filter=' + JSON.stringify(filter);
+
+  request(url, function (error, response, body) {
+    if (!error) {
+      console.log(JSON.parse(body));
+    } else {
+      console.log(error);
+    }
+  });
+}
+
+getCurrentBroacast(function() {});
+//getBroadcast('crid://bds.tv/100112971362');
+
+module.exports = {
+  'getCurrentBroacast': getCurrentBroacast,
+  'getBroadcast': getBroadcast
+};
