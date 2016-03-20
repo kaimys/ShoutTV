@@ -27,6 +27,10 @@ function navigation(e) {
       toggle();
       break;
 
+    case KeyboardEvent.VK_ENTER:
+      info.toggle();
+      break;
+
     case KeyboardEvent.VK_LEFT:
       if (isVisible()) {
         select($overviewHottest);
@@ -83,12 +87,42 @@ exports.render = function() {
   }
 };
 
+var info = {
+  toggle: function() {
+    if ($('#info').length) {
+      this.hide();
+    } else {
+      this.show();
+    }
+  },
+  show: function() {
+    var stream = getActiveStream();
+
+    var $info = renderInfo(stream);
+    $('body').append($info);
+  },
+  hide: function() {
+    $('#info').remove();
+  }
+}
+
+function getActiveStream() {
+  var $stream = $overview.find('> .active > .elements > .active.stream');
+  if ($stream.length === 0) {
+    return;
+  }
+  var streamId = $stream[0].id.replace(ID_PREFIX, '');
+  return _.findWhere(streams.byUpdated, { id: parseInt(streamId) });
+}
+
 function toggle() {
   $overview.toggle();
 
   if (isVisible()) {
     exports.render();
-    select($overviewHottest);
+    if ($overview.find('> .active').length === 0) {
+      select($overviewHottest);
+    }
   }
 }
 
@@ -96,6 +130,11 @@ function isVisible() {
   return $('#overview').is(":visible"); 
 }
 
+function renderInfo(stream) {
+  var $elem = $(`<div id="info"></div>`);
+  $elem[0].innerHMTL = '<img src="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=${encodeURIComponent(stream.stream)}&choe=UTF-8" />';
+  return $elem;
+}
 function render(stream) {
   return `<a id="${ID_PREFIX}${stream.id}" class="stream">${renderInner(stream)}</a>`;
 }
