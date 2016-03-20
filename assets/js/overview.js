@@ -4,6 +4,8 @@ const AMOUNT_HOTTEST_STREAMS = 5;
 
 'use strict';
 
+const ID_PREFIX = 'ticker-';
+
 var _ = require('underscore');
 var $ = require('jquery');
 
@@ -17,6 +19,8 @@ document.addEventListener('keydown', navigation, true);
 document.addEventListener('keypress', navigation, true);
 
 function navigation(e) {
+  var $activeStream, $newActiveStream;
+
   switch (e.keyCode) {
 
     case KeyboardEvent.VK_RED:
@@ -37,8 +41,9 @@ function navigation(e) {
 
     case KeyboardEvent.VK_UP:
       if (isVisible()) {
-        var $newActiveStream = $overview.find('> .elements > .active > streams.active').prev();
-        if ($newActiveStream.length) {
+        $activeStream = $overview.find('> .active > .elements > stream.active');
+        var $newActiveStream = $activeStream.prev();
+        if ($newActiveStream.length && $newActiveStream[0] !== $activeStream[0]) {
           $newActiveStream.addClass('active')
             .siblings().removeClass('active');
         }
@@ -47,8 +52,9 @@ function navigation(e) {
 
     case KeyboardEvent.VK_DOWN:
       if (isVisible()) {
-        var $newActiveStream = $overview.find('> .elements > .active > streams.active').next();
-        if ($newActiveStream.length) {
+        $activeStream = $overview.find('> .active > .elements > stream.active');
+        var $newActiveStream = $activeStream.next();
+        if ($newActiveStream.length && $newActiveStream[0] !== $activeStream[0]) {
           $newActiveStream.addClass('active')
             .siblings().removeClass('active');
         }
@@ -91,7 +97,7 @@ function isVisible() {
 }
 
 function render(stream) {
-  return `<a id="ticker-${stream.id}" class="stream">${renderInner(stream)}</a>`;
+  return `<a id="${ID_PREFIX}${stream.id}" class="stream">${renderInner(stream)}</a>`;
 }
 function renderInner(stream) {
   return `<div class="user"><div class="image" style="background-image: url(${stream.avatar});"></div> ${stream.user_name}</div>
@@ -101,26 +107,32 @@ function renderInner(stream) {
 
 function renderList($list, streams) {
   var i, $stream;
-  var $streams = $list.find('> .elements');
+  var $elements = $list.find('> .elements');
 
   var unhandledStreamsMap = _.indexBy(streams, 'id');
 
-  var $existingStreams = $streams.children();
+  var $existingStreams = $elements.children();
   for (i = 0; i < $existingStreams.length; i++) {
     var streamElem = $existingStreams[i];
     
     // update stream
-    if (streamElem.id in unhandledStreamsMap) {
-      streamElem.innerHTML = renderInner(stream);
+    var streamId = streamElem.id.replace(ID_PREFIX, '');
+    if (streamId in unhandledStreamsMap) {
+      streamElem.innerHTML = renderInner(unhandledStreamsMap[streamId]);
       unhandledStreamsMap[streamElem.id] = false;
     }
     // remove stream
     else {
       $stream = $(streamElem);
       if ($stream.hasClass('active')) {
-        $stream.prev().addClass('active');
-        $stream.remove();
+        var $prev = $stream.prev(':not(.active)');
+        if ($prev.length && $prev[0] !== $stream[0]) {
+          $prev.addClass('active');
+        } else {
+          $stream.next().addClass('active');
+        }
       }
+      $stream.remove();
     }
   }
 
@@ -129,7 +141,7 @@ function renderList($list, streams) {
     // render only not already updated streams
     if (unhandledStreamsMap[stream.id]) {
       $stream = $(render(stream));
-      $streams.prepend($stream);
+      $elements.prepend($stream);
     }
   }
 }
