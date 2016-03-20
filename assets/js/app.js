@@ -35,6 +35,6 @@ window.addEventListener('load', function() {
   var keyset = application.privateData.keyset || config.keyset || {};
   keyset.setValue || (keyset.setValue = function() {});
 
-  application.privateData.keyset.setValue(initKeys);
+  application.privateData.keyset.setValue(0x3ff);
 
 }, true);
