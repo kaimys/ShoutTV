@@ -1,6 +1,6 @@
 /// <reference path="../../typings/main.d.ts" />
 
-const AMOUNT_HOTTEST_STREAMS = 5;
+const AMOUNT_HOTTEST_STREAMS = 7;
 
 'use strict';
 
@@ -159,7 +159,7 @@ function renderList($list, streams) {
     var streamId = streamElem.id.replace(ID_PREFIX, '');
     if (streamId in unhandledStreamsMap) {
       streamElem.innerHTML = renderInner(unhandledStreamsMap[streamId]);
-      unhandledStreamsMap[streamElem.id] = false;
+      unhandledStreamsMap[streamId] = false;
     }
     // remove stream
     else {
