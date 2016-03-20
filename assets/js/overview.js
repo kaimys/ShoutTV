@@ -44,7 +44,7 @@ function navigation(e) {
 
     case KeyboardEvent.VK_UP:
       if (isVisible()) {
-        $activeStream = $overview.find('> .active > .elements > stream.active');
+        $activeStream = $overview.find('> .active > .elements > .stream.active');
         var $newActiveStream = $activeStream.prev();
         if ($newActiveStream.length && $newActiveStream[0] !== $activeStream[0]) {
           $newActiveStream.addClass('active')
@@ -55,7 +55,7 @@ function navigation(e) {
 
     case KeyboardEvent.VK_DOWN:
       if (isVisible()) {
-        $activeStream = $overview.find('> .active > .elements > stream.active');
+        $activeStream = $overview.find('> .active > .elements > .stream.active');
         var $newActiveStream = $activeStream.next();
         if ($newActiveStream.length && $newActiveStream[0] !== $activeStream[0]) {
           $newActiveStream.addClass('active')
@@ -71,11 +71,12 @@ function navigation(e) {
 
 function select($list) {
   if (!$list.hasClass('active')) {
-    $list.addClass('active')
-      .siblings().removeClass('active');
     var $streams = $list.find('> .elements')
-      .children().removeClass('active')
-      .first().addClass('active');
+      .children().first().addClass('active');
+    $list.addClass('active')
+      .siblings().removeClass('active')
+      .find('> .elements')
+      .children().removeClass('active');
   }
 }
 
@@ -132,9 +133,7 @@ function isVisible() {
 }
 
 function renderInfo(stream) {
-  var $elem = $(`<div id="info"></div>`);
-  $elem[0].innerHMTL = '<img src="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=${encodeURIComponent(stream.stream)}&choe=UTF-8" />';
-  return $elem;
+  return $(`<div id="info">${renderInner(stream)}<br /><img src="https://chart.googleapis.com/chart?chs=400x400&amp;cht=qr&amp;chl=${encodeURIComponent(stream.stream)}" /></div>`);
 }
 function render(stream) {
   return `<a id="${ID_PREFIX}${stream.id}" class="stream">${renderInner(stream)}</a>`;
