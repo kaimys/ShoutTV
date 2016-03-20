@@ -14,15 +14,17 @@ var hashMap = {
   '140191056739': '#TEAMWORK',
   '140039622210': '#NEWSTIME',
   '557080399':    '#YearOne',
-  '559632992':    '#BatVsSuper'
+  '559632992':    '#BatVsSuper',
+  '557080395':    '#JoeDreck',
+  '557080396':    '#HaroldKumar'
 };
 
 var baseUrl = 'http://hack.api.uat.ebmsctogroup.com/stores-active/contentInstance/event/filter?api_key=240e4458fc4c6ac85c290481646b21ef';
 
 function getCurrentBroacast(callback) {
   var now = new Date();
-  var then = new Date(now.getTime() + 3600000*15);
-  var now = new Date(now.getTime() - 3600000*2);
+  var then = new Date(now.getTime() + 3600000*1);
+  var now = new Date(now.getTime() - 3600000*1);
   var filter = {
     'criteria':[
       {
@@ -48,6 +50,7 @@ function getCurrentBroacast(callback) {
     if (!error) {
       if (response.statusCode == 200) {
         var results = JSON.parse(body);
+        var resProg = [];
         _.chain(results)
         .sortBy(function(b) { return b.publishedStartDateTime; })
         .each(function(broadcast) {
@@ -69,9 +72,9 @@ function getCurrentBroacast(callback) {
           if (hashMap[prog.format]) {
             prog.hash.push(hashMap[prog.format]);
           }
-          console.log(prog);
-          callback(undefined, prog);
+          resProg.push(prog);
         });
+        callback(undefined, resProg);
       } else {
         console.log('server returned status %s for url %s', response.statusCode, url);
         console.log(body);
@@ -100,7 +103,7 @@ function getBroadcast(programmeAbstractionId) {
   });
 }
 
-getCurrentBroacast(function() {});
+//getCurrentBroacast(function() {});
 //getBroadcast('crid://bds.tv/100112971362');
 
 module.exports = {
