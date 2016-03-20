@@ -1,13 +1,37 @@
 DEVICE_WIDTH = 1280px;
 DEVICE_HEIGHT = 720px;
 
-BACKGROUND_COLOR = rgba(1, 1, 1, 0.2);
+TEXT_COLOR = #000;
+BACKGROUND_COLOR = rgba(200, 200, 200, 0.2);
+ACTIVE_BACKGROUND_COLOR = rgba(255, 0, 0, 0.2);
 
 body {
+  font-family: 'Tiresias PCfont',TiresiasPCfont,'Tiresias Screen Font',TiresiasScreenfont,Tiresias,'Philips Screen Font 4',Arial,sans-serif;
+  color: TEXT_COLOR;
   width: DEVICE_WIDTH;
   height: DEVICE_HEIGHT;
   position: absolute;
   margin: 0;
+}
+
+a:link {
+  color: TEXT_COLOR;
+  text-decoration: none;
+}
+
+a:visited {
+  color: TEXT_COLOR;
+  text-decoration: none;
+}
+
+a:hover {
+  color: TEXT_COLOR;
+  text-decoration: none;
+}
+
+a:active {
+  color: TEXT_COLOR;
+  text-decoration: none;
 }
 
 @import "ticker";
