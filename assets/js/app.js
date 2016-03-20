@@ -17,4 +17,26 @@ window.addEventListener('load', function() {
     }
   }
 
+  var appMan = document.getElementById('oipfApplicationManager');
+  var config = document.getElementById('oipfConfiguration') || {};
+
+  if (!appMan || !appMan.getOwnerApplication)
+    return;
+
+  appManager = appMan;
+
+  application = appMan.getOwnerApplication(document);
+
+  // Opera TV Emulator 3.4 can't get application
+  if (!application)
+    return;
+
+  if (!application.privateData)
+    application.privateData = {};
+
+  keyset = application.privateData.keyset || config.keyset || {};
+  keyset.setValue || (keyset.setValue = function() {});
+
+  application.privateData.keyset.setValue(initKeys);
+
 }, true);

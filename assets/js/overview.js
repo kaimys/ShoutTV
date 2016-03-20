@@ -16,7 +16,6 @@ var $overviewHottest = $('#overview-hottest');
 var $overviewNewest = $('#overview-newest');
 
 document.addEventListener('keydown', navigation, true);
-document.addEventListener('keypress', navigation, true);
 
 function navigation(e) {
   var $activeStream, $newActiveStream;
@@ -64,6 +63,9 @@ function navigation(e) {
         }
       }
       break;
+
+    default:
+      console.log(e.keyCode);
   }
 }
 
@@ -117,7 +119,6 @@ function getActiveStream() {
 
 function toggle() {
   $overview.toggle();
-
   if (isVisible()) {
     exports.render();
     if ($overview.find('> .active').length === 0) {

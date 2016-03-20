@@ -2,7 +2,7 @@
 
 // Polyfill HbbTV KeyboardEvents
 
-var KeyboardEvent = window.KeyEvent || window.KeyboardEvent;
+var KeyboardEvent = window.KeyEvent && window.KeyEvent.VK_RED ? window.KeyEvent : window.KeyboardEvent;
 
 window.KeyboardEvent.VK_RED = KeyboardEvent.VK_RED || 82; // R
 window.KeyboardEvent.VK_GREEN = KeyboardEvent.VK_GREEN || 71; // G
