@@ -32,7 +32,7 @@ window.addEventListener('load', function() {
   if (!application.privateData)
     application.privateData = {};
 
-  keyset = application.privateData.keyset || config.keyset || {};
+  var keyset = application.privateData.keyset || config.keyset || {};
   keyset.setValue || (keyset.setValue = function() {});
 
   application.privateData.keyset.setValue(initKeys);
