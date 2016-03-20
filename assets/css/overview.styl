@@ -21,18 +21,26 @@ COLUMN_WIDTH = 300px;
   width: COLUMN_WIDTH;
   height: 100%;
   background-color: BACKGROUND_COLOR;
+  overflow: hidden;
 
   &.active {
     background-color: ACTIVE_BACKGROUND_COLOR;
   }
+  
+  > .elements {
+    .stream {
+      padding: 10px;
+
+      &.active {
+        background-color: #f00;
+      }
+    }
+  }
 
   > h2 {
     margin: 0;
+    padding: 10px;
     height: 28px;
-  }
-
-  > .elements {
-    
   }
 }
 

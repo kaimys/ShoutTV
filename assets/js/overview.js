@@ -25,25 +25,19 @@ function navigation(e) {
 
     case KeyboardEvent.VK_LEFT:
       if (isVisible()) {
-        $overviewHottest.addClass('active')
-          .siblings().removeClass('active')
-          .children().removeClass('active')
-          .first().addClass('active');
+        select($overviewHottest);
       }
       break;
 
     case KeyboardEvent.VK_RIGHT:
       if (isVisible()) {
-        $overviewNewest.addClass('active')
-          .siblings().removeClass('active')
-          .children().removeClass('active')
-          .first().addClass('active');
+        select($overviewNewest);
       }
       break;
 
     case KeyboardEvent.VK_UP:
       if (isVisible()) {
-        var $newActiveStream = $overview.find('> .active > streams.active').prev();
+        var $newActiveStream = $overview.find('> .elements > .active > streams.active').prev();
         if ($newActiveStream.length) {
           $newActiveStream.addClass('active')
             .siblings().removeClass('active');
@@ -53,13 +47,23 @@ function navigation(e) {
 
     case KeyboardEvent.VK_DOWN:
       if (isVisible()) {
-        var $newActiveStream = $overview.find('> .active > streams.active').next();
+        var $newActiveStream = $overview.find('> .elements > .active > streams.active').next();
         if ($newActiveStream.length) {
           $newActiveStream.addClass('active')
             .siblings().removeClass('active');
         }
       }
       break;
+  }
+}
+
+function select($list) {
+  if (!$list.hasClass('active')) {
+    $list.addClass('active')
+      .siblings().removeClass('active');
+    var $streams = $list.find('> .elements')
+      .children().removeClass('active')
+      .first().addClass('active');
   }
 }
 
@@ -78,11 +82,7 @@ function toggle() {
 
   if (isVisible()) {
     exports.render();
-
-    var $children = $overviewHottest.children();
-    if ($children.length) {
-      $($children[0]).focus();
-    }
+    select($overviewHottest);
   }
 }
 
@@ -101,10 +101,11 @@ function renderInner(stream) {
 
 function renderList($list, streams) {
   var i, $stream;
+  var $streams = $list.find('> .elements');
 
   var unhandledStreamsMap = _.indexBy(streams, 'id');
 
-  var $existingStreams = $list.children();
+  var $existingStreams = $streams.children();
   for (i = 0; i < $existingStreams.length; i++) {
     var streamElem = $existingStreams[i];
     
@@ -128,10 +129,7 @@ function renderList($list, streams) {
     // render only not already updated streams
     if (unhandledStreamsMap[stream.id]) {
       $stream = $(render(stream));
-      $list.prepend($stream);
-      if ($list.hasClass('active') && $list.find('> .active').length === 0) {
-        $stream.addClass('active');
-      }
+      $streams.prepend($stream);
     }
   }
 }
