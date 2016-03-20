@@ -23,7 +23,7 @@ window.addEventListener('load', function() {
   if (!appMan || !appMan.getOwnerApplication)
     return;
 
-  application = appMan.getOwnerApplication(document);
+  var application = appMan.getOwnerApplication(document);
 
   // Opera TV Emulator 3.4 can't get application
   if (!application)
