@@ -40,7 +40,7 @@ function startStreamer(bc) {
   hash = bc.hash;
   console.log('hash is %s', hash);
 
-  streamer.start('', function(stream) {
+  streamer.start(hash, function(stream) {
     periscope(stream.stream, function(err, pscope) {
       if (!err) {
         var data = {
